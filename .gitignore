@@ -4,6 +4,25 @@
 
 # Python cache
 __pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+.DS_Store
+# Sisyphus working data
+.sisyphus/
+# OS
+Thumbs.db
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+.env
+.env.*
+
+# Python cache
+__pycache__/
 *.pyc
 .ruff_cache/
 

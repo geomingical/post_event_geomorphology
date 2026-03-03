@@ -12,31 +12,23 @@ OUTPUT = Path(__file__).parent / "papers.json"
 
 # Process Phase metadata (for tabs — first layer)
 PHASE_META = {
-    "initial_aggradation": {
-        "name": "Initial Aggradation",
-        "icon": "mountain",
-        "color": "#c0613a",
-    },
-    "remobilization": {"name": "Remobilization", "icon": "waves", "color": "#4a6e8a"},
-    "geomorphic_adjustment": {
-        "name": "Geomorphic Adjustment",
-        "icon": "trending-up",
-        "color": "#6b7e5e",
-    },
-    "recovery": {"name": "Recovery", "icon": "refresh", "color": "#2e7d6e"},
-    "equilibrium": {"name": "Equilibrium", "icon": "balance", "color": "#7a6e4e"},
+    "initial_aggradation": {"name": "Initial Aggradation", "icon": "trending-up", "color": "#8b5e3c"},
+    "remobilization": {"name": "Remobilization", "icon": "refresh-cw", "color": "#c07a3a"},
+    "geomorphic_adjustment": {"name": "Geomorphic Adjustment", "icon": "sliders", "color": "#7a6e4e"},
+    "recovery": {"name": "Recovery", "icon": "sunrise", "color": "#5e7a52"},
+    "equilibrium": {"name": "Equilibrium", "icon": "anchor", "color": "#4a6e7a"},
     "multiple": {"name": "Multiple Phases", "icon": "layers", "color": "#8a7f72"},
 }
 
 # Mechanism metadata (for sub-filters — second layer)
 MECHANISM_META = {
-    "coseismic_landslide": {"name": "Coseismic Landslide", "color": "#c0613a"},
-    "debris_flow": {"name": "Debris Flow", "color": "#8a5a3a"},
-    "channel_incision": {"name": "Channel Incision", "color": "#4a6e8a"},
-    "terrace_formation": {"name": "Terrace Formation", "color": "#6b7e5e"},
-    "hillslope_connectivity": {"name": "Hillslope Connectivity", "color": "#7a6e4e"},
-    "hydrometeorological": {"name": "Hydrometeorological", "color": "#2e7d6e"},
-    "multiple": {"name": "Multiple", "color": "#8a7f72"},
+    "coseismic_landslide": {"name": "Coseismic Landslide", "color": "#8b5e3c"},
+    "debris_flow": {"name": "Debris Flow", "color": "#c07a3a"},
+    "channel_incision": {"name": "Channel Incision", "color": "#7a6e4e"},
+    "terrace_formation": {"name": "Terrace Formation", "color": "#5e7a52"},
+    "hillslope_connectivity": {"name": "Hillslope Connectivity", "color": "#6b8a7a"},
+    "hydrometeorological": {"name": "Hydrometeorological", "color": "#4a6e7a"},
+    "multiple": {"name": "Multiple Mechanisms", "color": "#8a7f72"},
 }
 
 
@@ -82,9 +74,23 @@ def main():
         mechanism = row["Mechanism"].strip()
         study_type = row["Study_Type"].strip()
 
-        # Parse parameters (comma-separated)
+        # Parse parameters (semicolon first, then comma fallback)
         params_raw = row["Parameters"].strip()
-        params = [p.strip() for p in params_raw.split(",") if p.strip()]
+        if ";" in params_raw:
+            params = [p.strip() for p in params_raw.split(";") if p.strip()]
+        else:
+            params = [p.strip() for p in params_raw.split(",") if p.strip()]
+
+        # Split process_phases and mechanisms into lists
+        if ";" in process_phase:
+            process_phases_list = [x.strip() for x in process_phase.split(";") if x.strip()]
+        else:
+            process_phases_list = [process_phase] if process_phase else []
+
+        if ";" in mechanism:
+            mechanisms_list = [x.strip() for x in mechanism.split(";") if x.strip()]
+        else:
+            mechanisms_list = [mechanism] if mechanism else []
 
         paper = {
             "id": paper_id,
@@ -92,7 +98,9 @@ def main():
             "authors": [a.strip() for a in row["Authors"].split(",") if a.strip()],
             "year": int(row["Year"]) if row["Year"].strip().isdigit() else 0,
             "process_phase": process_phase,
+            "process_phases": process_phases_list,
             "mechanism": mechanism,
+            "mechanisms": mechanisms_list,
             "study_type": study_type,
             "journal": row["Journal"].strip(),
             "doi": row["DOI"].strip(),

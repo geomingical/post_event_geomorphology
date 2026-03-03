@@ -3,11 +3,11 @@
 
     // ─── SVG Icons (stroke-based, viewBox 0 0 24 24) ───
     const ICONS = {
-        'mountain': '<svg viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>',
-        'waves': '<svg viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>',
         'trending-up': '<svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
-        'refresh': '<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
-        'balance': '<svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 12H2l3-9 3 9H5z"/><path d="M19 12h-3l3-9 3 9h-3z"/><line x1="2" y1="21" x2="22" y2="21"/></svg>',
+        'refresh-cw': '<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+        'sliders': '<svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>',
+        'sunrise': '<svg viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/></svg>',
+        'anchor': '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>',
         'layers': '<svg viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>',
         'star': '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
     };
@@ -43,12 +43,12 @@
         let papers = papersData.papers;
         if (currentPhase !== 'all') {
             papers = papers.filter(function (p) {
-                return p.process_phase === currentPhase;
+                return p.process_phases && p.process_phases.indexOf(currentPhase) !== -1;
             });
         }
         if (currentMechanism !== 'all') {
             papers = papers.filter(function (p) {
-                return p.mechanism === currentMechanism;
+                return p.mechanisms && p.mechanisms.indexOf(currentMechanism) !== -1;
             });
         }
         if (currentYear !== null) {
@@ -62,12 +62,12 @@
         let papers = papersData.papers;
         if (currentPhase !== 'all') {
             papers = papers.filter(function (p) {
-                return p.process_phase === currentPhase;
+                return p.process_phases && p.process_phases.indexOf(currentPhase) !== -1;
             });
         }
         if (currentMechanism !== 'all') {
             papers = papers.filter(function (p) {
-                return p.mechanism === currentMechanism;
+                return p.mechanisms && p.mechanisms.indexOf(currentMechanism) !== -1;
             });
         }
         return papers;
@@ -107,28 +107,32 @@
 
     // ─── Mechanism Pills (Layer 2) ───
     function renderMechanismPills() {
-        const container = document.getElementById('mechanism-filters');
+        const container = document.getElementById('mech-filters');
 
         // Count mechanisms within current phase filter
         let papers = papersData.papers;
         if (currentPhase !== 'all') {
             papers = papers.filter(function (p) {
-                return p.process_phase === currentPhase;
+                return p.process_phases && p.process_phases.indexOf(currentPhase) !== -1;
             });
         }
 
         const mechCounts = {};
         papers.forEach(function (p) {
-            if (p.mechanism) mechCounts[p.mechanism] = (mechCounts[p.mechanism] || 0) + 1;
+            if (p.mechanisms) {
+                p.mechanisms.forEach(function (m) {
+                    mechCounts[m] = (mechCounts[m] || 0) + 1;
+                });
+            }
         });
 
         const allCount = papers.length;
-        let html = '<button class="mechanism-pill' + (currentMechanism === 'all' ? ' active' : '') + '" data-mechanism="all">' +
+        let html = '<button class="mech-pill' + (currentMechanism === 'all' ? ' active' : '') + '" data-mechanism="all">' +
             'All <span class="pill-count">' + allCount + '</span></button>';
 
         papersData.mechanismCategories.forEach(function (mc) {
             const count = mechCounts[mc.key] || 0;
-            html += '<button class="mechanism-pill' + (currentMechanism === mc.key ? ' active' : '') + '" data-mechanism="' + mc.key + '"' +
+            html += '<button class="mech-pill' + (currentMechanism === mc.key ? ' active' : '') + '" data-mechanism="' + mc.key + '"' +
                 ' style="--mech-color: ' + mc.color + '">' +
                 mc.name + ' <span class="pill-count">' + count + '</span></button>';
         });
@@ -335,7 +339,7 @@
         document.getElementById('modal-journal').textContent = paper.journal || '-';
         document.getElementById('modal-region').textContent = paper.region || '-';
         document.getElementById('modal-study-type').textContent = formatStudyType(paper.study_type) || '-';
-        document.getElementById('modal-time-scale').textContent = paper.time_scale || '-';
+        document.getElementById('modal-timescale').textContent = paper.time_scale || '-';
 
         // Relevance badge
         const relevanceEl = document.getElementById('modal-relevance');
@@ -435,7 +439,7 @@
             ? papersData.papers.filter(function (p) { return selectedPapers.has(p.id); })
             : getFilteredPapers();
         const suffix = selectedPapers.size > 0 ? 'selected' : (currentPhase === 'all' ? 'all' : currentPhase);
-        const filename = 'post_event_geomorph_' + suffix + '_papers.json';
+        const filename = 'post_seismic_' + suffix + '_papers.json';
         downloadFile(JSON.stringify(papers, null, 2), filename, 'application/json');
     }
 
@@ -444,7 +448,7 @@
             ? papersData.papers.filter(function (p) { return selectedPapers.has(p.id); })
             : getFilteredPapers();
         const suffix = selectedPapers.size > 0 ? 'selected' : (currentPhase === 'all' ? 'all' : currentPhase);
-        const filename = 'post_event_geomorph_' + suffix + '_papers.csv';
+        const filename = 'post_seismic_' + suffix + '_papers.csv';
 
         const headers = ['id', 'title', 'authors', 'year', 'process_phase', 'mechanism', 'study_type', 'journal', 'doi', 'url', 'region', 'parameters', 'time_scale', 'key_findings', 'relevance'];
         const csvRows = [headers.join(',')];
@@ -503,10 +507,10 @@
         });
 
         // Mechanism pills (Layer 2)
-        document.getElementById('mechanism-filters').addEventListener('click', function (e) {
-            var pill = e.target.closest('.mechanism-pill');
+        document.getElementById('mech-filters').addEventListener('click', function (e) {
+            var pill = e.target.closest('.mech-pill');
             if (!pill) return;
-            document.querySelectorAll('#mechanism-filters .mechanism-pill').forEach(function (p) { p.classList.remove('active'); });
+            document.querySelectorAll('#mech-filters .mech-pill').forEach(function (p) { p.classList.remove('active'); });
             pill.classList.add('active');
             currentMechanism = pill.dataset.mechanism;
             currentYear = null;         // Reset timeline selection

@@ -6,20 +6,20 @@
 
 :root {
     --bg-primary: #f5f2ed;
-    --bg-secondary: #e8e3db;
+    --bg-secondary: #ede8e0;
     --bg-card: #ffffff;
     --bg-card-hover: #faf8f5;
-    --text-primary: #2c2a25;
-    --text-secondary: #5a5650;
-    --text-muted: #8a8378;
-    --border-color: #d4cfc6;
-    --border-hover: #b8b0a3;
+    --text-primary: #2d2318;
+    --text-secondary: #5a4a35;
+    --text-muted: #9a8a78;
+    --border-color: #d4c8b8;
+    --border-hover: #bfad99;
     --accent: #7a6e4e;
-    --accent-hover: #6a5e3e;
-    --accent-alt: #6b7e5e;
-    --highlight: #c0613a;
-    --danger: #b33a3a;
-    --success: #4a7a5e;
+    --accent-hover: #6b5f42;
+    --accent-alt: #5e7a52;
+    --highlight: #c07a3a;
+    --danger: #8b3a3a;
+    --success: #5e7a52;
 
     --font-heading: 'Sora', sans-serif;
     --font-body: 'Public Sans', sans-serif;
@@ -34,10 +34,10 @@
     --radius-lg: 16px;
     --radius-xl: 24px;
 
-    --shadow-sm: 0 1px 3px rgba(44, 42, 37, 0.06), 0 1px 2px rgba(44, 42, 37, 0.04);
-    --shadow-md: 0 4px 12px rgba(44, 42, 37, 0.08), 0 2px 4px rgba(44, 42, 37, 0.04);
-    --shadow-lg: 0 12px 32px rgba(44, 42, 37, 0.1), 0 4px 8px rgba(44, 42, 37, 0.06);
-    --shadow-xl: 0 20px 48px rgba(44, 42, 37, 0.12), 0 8px 16px rgba(44, 42, 37, 0.06);
+    --shadow-sm: 0 1px 3px rgba(45, 35, 24, 0.06), 0 1px 2px rgba(45, 35, 24, 0.04);
+    --shadow-md: 0 4px 12px rgba(45, 35, 24, 0.08), 0 2px 4px rgba(45, 35, 24, 0.04);
+    --shadow-lg: 0 12px 32px rgba(45, 35, 24, 0.1), 0 4px 8px rgba(45, 35, 24, 0.06);
+    --shadow-xl: 0 20px 48px rgba(45, 35, 24, 0.12), 0 8px 16px rgba(45, 35, 24, 0.06);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,7 +47,7 @@ body {
     font-family: var(--font-body);
     background:
         radial-gradient(ellipse at 15% 10%, rgba(122, 110, 78, 0.04) 0%, transparent 50%),
-        radial-gradient(ellipse at 85% 80%, rgba(107, 126, 94, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(94, 122, 82, 0.04) 0%, transparent 50%),
         var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -100,7 +100,7 @@ body {
     font-size: 24px;
     font-weight: 700;
     color: var(--text-primary);
-    background: linear-gradient(135deg, #2c2a25 0%, #7a6e4e 100%);
+    background: linear-gradient(135deg, #2d2318 0%, #7a6e4e 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -369,11 +369,11 @@ body {
 }
 
 /* ─── Mechanism Sub-Filter Pills (Layer 2) ─── */
-.mechanism-filters-container {
+.mech-filters-container {
     margin-bottom: 16px;
 }
 
-.mechanism-filters {
+.mech-filters {
     display: flex;
     gap: 6px;
     padding: 8px 12px;
@@ -384,7 +384,7 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.mechanism-pill {
+.mech-pill {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -400,29 +400,29 @@ body {
     gap: 6px;
 }
 
-.mechanism-pill:hover {
+.mech-pill:hover {
     background: var(--bg-secondary);
     border-color: var(--border-hover);
 }
 
-.mechanism-pill:focus-visible {
+.mech-pill:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }
 
-.mechanism-pill.active {
+.mech-pill.active {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
 }
 
-.mechanism-pill .pill-count {
+.mech-pill .pill-count {
     font-size: 10px;
     font-family: var(--font-mono);
     opacity: 0.7;
 }
 
-.mechanism-pill.active .pill-count {
+.mech-pill.active .pill-count {
     opacity: 1;
 }
 
@@ -798,7 +798,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-normal);
-    background: rgba(44, 42, 37, 0.4);
+    background: rgba(45, 35, 24, 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
