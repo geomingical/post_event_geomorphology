@@ -3,8 +3,7 @@
 Curated database of 323 peer-reviewed papers on post-seismic sediment dynamics (coseismic landsliding → channel aggradation → recovery → equilibrium), browsable as a static GitHub Pages site.
 
 ## Live Site
-[https://YOUR_USERNAME.github.io/post_event_geomorphology/](https://YOUR_USERNAME.github.io/post_event_geomorphology/)
-*(Please update with your actual GitHub username)*
+[https://geomingical.github.io/post_event_geomorphology/](https://geomingical.github.io/post_event_geomorphology/)
 
 ## Database Summary
 | Metric | Value |
