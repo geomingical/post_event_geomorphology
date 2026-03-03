@@ -1,0 +1,22 @@
+# Environment
+.env
+.env.*
+
+# Python cache
+__pycache__/
+*.pyc
+.ruff_cache/
+
+# Sisyphus working data
+.sisyphus/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

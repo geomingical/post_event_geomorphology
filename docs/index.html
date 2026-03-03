@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Event Geomorphology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-emoji">🏔️</span>
+                    <div class="logo-text">
+                        <h1>Post-Event Geomorphology</h1>
+                        <p>Post-Seismic Sediment Dynamics Literature Database</p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="stats-box">
+                    <div class="stat">
+                        <span class="stat-value" id="stat-papers">0</span>
+                        <span class="stat-label">Papers</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-value" id="stat-years">-</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                </div>
+                <div class="download-dropdown">
+                    <button id="download-btn" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Export <span id="selection-count" class="badge hidden">0</span>
+                    </button>
+                    <div class="dropdown-menu" id="download-menu">
+                        <button class="dropdown-item" id="btn-select-all">Select All filtered</button>
+                        <button class="dropdown-item" id="btn-clear-selection">Clear Selection</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="btn-dl-json">Download JSON</button>
+                        <button class="dropdown-item" id="btn-dl-csv">Download CSV</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="filters-section">
+            <div class="tabs-container">
+                <div class="tabs" id="phase-tabs">
+                    <!-- Process Phase tabs injected here -->
+                </div>
+            </div>
+            
+            <div class="mechanism-filters-container" id="mechanism-filters-wrapper">
+                <div class="mechanism-filters" id="mechanism-filters">
+                    <!-- Mechanism filter pills injected here -->
+                </div>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-header" id="timeline-toggle">
+                    <h3>Publication Timeline</h3>
+                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="timeline-content" id="timeline-content">
+                    <div class="timeline-bars" id="timeline-bars">
+                        <!-- Bars injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-info" id="filter-info">
+                <div class="filter-text">Showing all papers</div>
+                <button class="btn-clear" id="btn-clear-filters" style="display: none;">Clear Filters</button>
+            </div>
+        </section>
+
+        <section class="papers-grid" id="papers-grid">
+            <!-- Papers injected here -->
+        </section>
+
+        <div class="load-more-container">
+            <button id="btn-load-more" class="btn btn-outline" style="display: none;">
+                Load More Papers (<span id="load-more-count">0</span> remaining)
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Built for Post-Seismic Geomorphology Research</p>
+        <p class="footer-stats"><span id="footer-count">0</span> papers &bull; <span id="footer-years">-</span></p>
+    </footer>
+
+    <!-- Paper Modal -->
+    <div class="modal-backdrop" id="paper-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div class="modal-badges" id="modal-badges"></div>
+                <button class="btn-close" id="btn-close-modal" aria-label="Close modal">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <div class="modal-authors" id="modal-authors"></div>
+                
+                <div class="modal-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Journal</span>
+                        <span class="meta-value" id="modal-journal"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Region</span>
+                        <span class="meta-value" id="modal-region"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Study Type</span>
+                        <span class="meta-value" id="modal-study-type"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Time Scale</span>
+                        <span class="meta-value" id="modal-time-scale"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Relevance</span>
+                        <span class="meta-value" id="modal-relevance"></span>
+                    </div>
+                </div>
+
+                <div class="modal-section" id="modal-params-section">
+                    <h3 class="section-title">Parameters Measured</h3>
+                    <div class="param-tags" id="modal-params"></div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="section-title">Key Findings</h3>
+                    <blockquote class="key-findings-block" id="modal-findings"></blockquote>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="modal-btn-view">
+                    View Paper (DOI)
+                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="modal-btn-scholar">
+                    Search Google Scholar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
